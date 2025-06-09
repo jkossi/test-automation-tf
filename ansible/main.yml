@@ -1,0 +1,26 @@
+# Entrypoint playbook
+- hosts: all
+  connection: local
+  vars_files:
+    - ../src/{{ lookup('env', 'DEPLOY_TARGET') }}/index.yml
+    - ../src/{{ lookup('env', 'DEPLOY_TARGET') }}/{{ lookup('env', 'WORKSPACE') }}.yml
+    - /iac-config.yml
+  tasks:
+    - debug:
+        msg: ../src/{{ lookup('env', 'DEPLOY_TARGET') }}/{{ lookup('env', 'WORKSPACE') }}.yml
+
+    - name: Print out some external config
+      debug:
+        msg: "This is external config: {{ example_config }}"
+
+    - name: Where are we getting iac from
+      debug:
+        msg: src/{{ lookup('env', 'DEPLOY_TARGET') }}/index.yml
+
+    - name: Print out some info from the IaC config
+      debug:
+        msg: "This is from the global config: {{ example_data }}"
+
+    - name: Print out more info from the IaC config
+      debug:
+        msg: "This is from the workspace config: {{ workspace_example_data }}"
