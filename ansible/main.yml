@@ -7,11 +7,10 @@
     - /iac-config.yml
   tasks:
     - debug:
-        msg: ../src/{{ lookup('env', 'DEPLOY_TARGET') }}/{{ lookup('env', 'WORKSPACE') }}.yml
+        msg: "{{ aws.access_key }}"
 
-    - name: Print out some external config
-      debug:
-        msg: "This is external config: {{ example_config }}"
+    - debug:
+        msg: ../src/{{ lookup('env', 'DEPLOY_TARGET') }}/{{ lookup('env', 'WORKSPACE') }}.yml
 
     - name: Where are we getting iac from
       debug:
