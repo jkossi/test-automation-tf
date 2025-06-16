@@ -1,6 +1,6 @@
 #!/bin/bash
 
-./setup.sh
+source setup.sh
 
 target="development"
 workspace="all"
@@ -15,5 +15,5 @@ while getopts 'e::w::v::' flag; do
 done
 
 docker build . -t events-platform-iac-iac
-docker run -e DEPLOY_TARGET="${target}" -e WORKSPACE="${workspace}" -v ${volume}:/iac-config.yml \
-    -a stdout -a stderr events-platform-iac-iac ./entrypoint.sh
+docker run -e DEPLOY_TARGET="${target}" -e WORKSPACE="${workspace}" \
+    -v ${volume}:/iac-config.yml -a stdout -a stderr events-platform-iac-iac ./entrypoint.sh
