@@ -29,6 +29,8 @@ jobs:
           echo "Ref: ${{ github.ref }}"
           echo "SHA: ${{ github.sha }}"
           echo "Workflow: ${{ github.workflow }}"
+          echo "Event Head Commit Message: ${{ github.event.head_commit.message }}"
+          echo "Branch: ${{ github.ref_name }}"
 
       - name: Checkout code
         uses: actions/checkout@v4
