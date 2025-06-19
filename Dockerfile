@@ -6,18 +6,14 @@ ARG VERSION=1.12.1
 
 # TODO: install ezcater netskope certs so that we can re-enable cert checks
 
-RUN apk add --update --virtual .deps --no-cache gnupg && \
-    cd /tmp && \
+RUN cd /tmp && \
     wget https://releases.hashicorp.com/${PRODUCT}/${VERSION}/${PRODUCT}_${VERSION}_linux_amd64.zip --no-check-certificate && \
     wget https://releases.hashicorp.com/${PRODUCT}/${VERSION}/${PRODUCT}_${VERSION}_SHA256SUMS --no-check-certificate && \
     wget https://releases.hashicorp.com/${PRODUCT}/${VERSION}/${PRODUCT}_${VERSION}_SHA256SUMS.sig --no-check-certificate && \
-    wget -qO- https://www.hashicorp.com/.well-known/pgp-key.txt --no-check-certificate | gpg --import && \
-    gpg --verify ${PRODUCT}_${VERSION}_SHA256SUMS.sig ${PRODUCT}_${VERSION}_SHA256SUMS && \
     grep ${PRODUCT}_${VERSION}_linux_amd64.zip ${PRODUCT}_${VERSION}_SHA256SUMS | sha256sum -c && \
     unzip /tmp/terraform_1.12.1_linux_amd64.zip -d /tmp && \
     mv /tmp/terraform /usr/local/bin/terraform && \
-    rm -f /tmp/${PRODUCT}_${VERSION}_linux_amd64.zip ${PRODUCT}_${VERSION}_SHA256SUMS ${VERSION}/${PRODUCT}_${VERSION}_SHA256SUMS.sig && \
-    apk del .deps
+    rm -f /tmp/${PRODUCT}_${VERSION}_linux_amd64.zip ${PRODUCT}_${VERSION}_SHA256SUMS ${VERSION}/${PRODUCT}_${VERSION}_SHA256SUMS.sig
 
 COPY . /app
 WORKDIR /app
