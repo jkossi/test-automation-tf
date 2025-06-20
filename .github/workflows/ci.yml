@@ -26,7 +26,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || env.GITHUB_SHA }}
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+
+      - name: Output the HEAD commit message
+        id: head-commit-message
+        run: |
+          echo "head_commit_message=$(git log -s --format=%s -n 1)" >> "$GITHUB_ENV"
 
       - name: Display Repository Information
         run: |
@@ -37,9 +42,8 @@ jobs:
           echo "SHA: ${{ github.sha }}"
           echo "Pull Request head SHA: ${{ github.event.pull_request.head.sha || 'N/A' }}"
           echo "Workflow: ${{ github.workflow }}"
-          echo "Event Head Commit Message: ${{ github.event.head_commit.message }}"
+          echo "Event Head Commit Message: ${{ env.head_commit_message }}"
           echo "Branch: ${{ github.ref_name }}"
-          echo "Env github sha: ${{ env.GITHUB_SHA || 'N/A' }}"
 
       - name: Run setup
         run: |
