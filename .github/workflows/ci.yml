@@ -22,6 +22,9 @@ jobs:
       packages: write
       pull-requests: read
 
+    outputs:
+      head_commit_message: ${{ steps.head-commit-message.outputs.head_commit_message }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -31,7 +34,7 @@ jobs:
       - name: Output the HEAD commit message
         id: head-commit-message
         run: |
-          echo "head_commit_message=$(git log -s --format=%s -n 1)" >> "$GITHUB_ENV"
+          echo "head_commit_message=$(git log -s --format=%s -n 1)" >> "$GITHUB_OUTPUT"
 
       - name: Display Repository Information
         run: |
@@ -42,7 +45,7 @@ jobs:
           echo "SHA: ${{ github.sha }}"
           echo "Pull Request head SHA: ${{ github.event.pull_request.head.sha || 'N/A' }}"
           echo "Workflow: ${{ github.workflow }}"
-          echo "Event Head Commit Message: ${{ env.head_commit_message }}"
+          echo "Event Head Commit Message: ${{ steps.head-commit-message.outputs.head_commit_message }}"
           echo "Branch: ${{ github.ref_name }}"
 
       - name: Run setup
@@ -86,7 +89,7 @@ jobs:
 
   deploy-development:
     needs: build-and-push
-    if: github.event_name == 'pull_request' && contains(env.head_commit_message, '[deploy dev1]')
+    if: github.event_name == 'pull_request' && contains(needs.build-and-push.outputs.head_commit_message, '[deploy dev1]')
     runs-on: ubuntu-latest
     environment: development
     
