@@ -47,6 +47,7 @@ jobs:
           echo "Workflow: ${{ github.workflow }}"
           echo "Event Head Commit Message: ${{ steps.head-commit-message.outputs.head_commit_message }}"
           echo "Branch: ${{ github.ref_name }}"
+          echo "Github Workspace: ${{ github.workspace }}"
 
       - name: Run setup
         run: |
@@ -99,7 +100,7 @@ jobs:
 
       - name: Run development deployment
         run: |
-          docker run --rm \
+          docker run \
             -e DEPLOY_TARGET="development" \
             -e WORKSPACE="all" \
             -v $HOME/.events-platform-iac/config:/iac-config.yml \
@@ -118,7 +119,7 @@ jobs:
 
       - name: Run production deployment
         run: |
-          docker run --rm \
+          docker run \
             -e DEPLOY_TARGET="production" \
             -e WORKSPACE="all" \
             -v $HOME/.events-platform-iac/config:/iac-config.yml \
