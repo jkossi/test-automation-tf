@@ -86,7 +86,7 @@ jobs:
 
   deploy-development:
     needs: build-and-push
-    if: github.event_name == 'pull_request' && contains(github.event.head_commit.message, '[deploy dev1]')
+    if: github.event_name == 'pull_request' && contains(env.head_commit_message, '[deploy dev1]')
     runs-on: ubuntu-latest
     environment: development
     
