@@ -20,3 +20,7 @@
     - name: Print out more info from the IaC config
       debug:
         msg: "This is from the workspace config: {{ workspace_example_data }}"
+
+    - name: My first task for ansible playbook
+      debug:
+        msg: "This is my first task in the ansible playbook"
