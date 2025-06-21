@@ -1,0 +1,8 @@
+name: Setup Config file
+description: |
+  This action sets up the configuration file for the deployment process.
+runs:
+  using: "composite"
+  steps:
+    - run: bash setup.sh
+      shell: bash
