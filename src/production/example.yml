@@ -1,2 +1,0 @@
-workspace_example_data: "{{ example_data }}!!!"
-more_data: "ok"
